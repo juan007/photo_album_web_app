@@ -4,14 +4,32 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Boilerplate Project Folder</title>
+        <title>Album App</title>
 		<link rel="stylesheet" type="text/css" href="./bundle.css" />
     </head>
     <body>
-
-        <!-- HTML Content goes here -->
-        <!-- ... -->
-
-        <script type="text/javascript" src="./bundle.js"></script>                
+    <div class = "header">
+        <div class="header__title">_Photo.Album</div>
+        <div class="header__subtitle">v5.0 Vanilla JS with FlexBox / Sass</div>
+    </div>
+    <div class = "nav">
+        <button class="nav__button" id="btnPrevious">Previous</button>
+        <button class="nav__button" id="btnNext">Next</button>
+        <button class="nav__button" id="btnJump">Jump</button>
+        <button class="nav__button" id="btnComment">Comment</button>
+        <div>Photo 1 of 11</div>
+    </div>
+    <div class = "imgcontainer">
+        <img class = "imgcontainer__img" src="#">
+    </div>
+    <div class = "imginfo">
+        <div class = "imginfo__title"></div>
+        <div class = "imginfo__caption"></div>
+    </div>
+    <div class = "comment" id="commentTemplate">
+        <div class = "comment__author">Submitted by: </div><div></div>
+        <div class = "commet__content">></div><div></div>
+    </div>
+    <script type="text/javascript" src="./bundle.js"></script>                
     </body>
 </html>
