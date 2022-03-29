@@ -23,6 +23,9 @@ let btnNext;
 let btnJump;
 let btnComment;
 
+//space to output comments
+let output;
+
 //declare other elements
 let photo;
 let photo_title;
@@ -45,6 +48,26 @@ function loadImage(position)
     photo_title.innerHTML = json.photos[position].title;
     photo_caption.innerHTML = json.photos[position].caption;
     photo_number.innerHTML = "Photo " + current_photo + " of " + imgCount;
+    
+    // clear out the target div 
+    output.innerHTML = ""; 
+    for (let mycomment of json.photos[position].comments)
+    {
+        // clone the comment template 
+        let commentTemplate = document.getElementById("commentTemplate"); 
+        let commentNode = commentTemplate.cloneNode(true); 
+
+        //object destructing to get all the property values
+        let {comment,author} = mycomment;
+        //load comments
+        commentNode.querySelectorAll("div")[0].innerHTML = `<br>Submitted by: ${author}<br>`;
+        commentNode.querySelectorAll("div")[1].innerHTML = `>${comment}`; 
+
+        // make orderNode visible now that it is populated 
+        commentNode.style.display = "block"; 
+        // append the orderNode to the #output div 
+        output.appendChild(commentNode);
+    }
 }
 
 //-------------------------------------------------Event Handlers
@@ -54,6 +77,9 @@ function onNext(e)
         current_photo +=1;
         loadImage(current_photo);
         btnPrevious.disabled = false;
+
+        //call function from toolkit to retreive JSON data
+        getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 }
 
 //when previous button is clicked
@@ -62,6 +88,8 @@ function onPrevious(e)
     current_photo -=1;
     loadImage(current_photo);
     btnNext.disabled = false;
+    //call function from toolkit to retreive JSON data
+    getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 }
 
 function onSubmit(e)
@@ -129,6 +157,8 @@ function onError()
 // ----------------------------------------------- main method
 function main() 
 {
+
+    output = document.querySelector(".content__comments");
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
     
