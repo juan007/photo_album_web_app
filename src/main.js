@@ -75,21 +75,22 @@ function loadImage(position)
 function onNext(e)
 {
         current_photo +=1;
-        loadImage(current_photo);
-        btnPrevious.disabled = false;
-
         //call function from toolkit to retreive JSON data
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
+
+        btnPrevious.disabled = false;
 }
 
 //when previous button is clicked
 function onPrevious(e)
 {
     current_photo -=1;
-    loadImage(current_photo);
-    btnNext.disabled = false;
+    
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
+    
+    btnNext.disabled = false;
+    
 }
 
 function onSubmit(e)
@@ -106,6 +107,7 @@ function onSubmit(e)
     let sendString = JSON.stringify(sendJSON);
     //send the JSON data to the WEb API
     sendJSONData(SUBMIT_SCRIPT,sendString, onSubmitResponse, onSubmitError);
+    
 
 }
 
@@ -120,6 +122,9 @@ function onSubmitResponse(responseText)
 {
     document.querySelector("#txtAuthor").value = "";
     document.querySelector("#txtComment").value = "";
+
+    //call function from toolkit to retreive JSON data
+    getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 }
    
 function onSubmitError() 
