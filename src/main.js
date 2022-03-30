@@ -4,8 +4,11 @@ import "./../sass/styles.scss";
 //import the method from Tollkit to get JSONData
 import { sendJSONData, getJSONData } from "./Toolkit";
 
+// importing spinner.js
+import { Spinner } from "spin.js";
+
 // API URLS
-let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=5";
+let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=7";
 let SUBMIT_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumAddComment.php?id=w0458041";
 
 //Variable that saves current photo id
@@ -26,16 +29,24 @@ let btnComment;
 //space to output comments
 let output;
 
+//space to output thumbnails
+let thumbnailOutput;
+
 //declare other elements
 let photo;
 let photo_title;
 let photo_caption;
 let photo_number;
-//private methods
+
+// construct Spinner object
+let loadingOverlay;
+let spinner = new Spinner({ color: '#FFFFFF', lines: 12 }).spin(document.querySelector(".loading-overlay"));
+
+//---------------------------------------------private methods
 function loadImage(position)
 {
+
     position -= 1;
-    console.log("position-" + position + " count" + imgCount );
     if (position == 0)
     {
         btnPrevious.disabled = true;
@@ -49,10 +60,14 @@ function loadImage(position)
     photo_caption.innerHTML = json.photos[position].caption;
     photo_number.innerHTML = "Photo " + current_photo + " of " + imgCount;
     
+    
     // clear out the target div 
     output.innerHTML = ""; 
+    
     for (let mycomment of json.photos[position].comments)
     {
+    
+        console.log(mycomment);
         // clone the comment template 
         let commentTemplate = document.getElementById("commentTemplate"); 
         let commentNode = commentTemplate.cloneNode(true); 
@@ -70,10 +85,56 @@ function loadImage(position)
     }
 }
 
+//function that loads all the thumbnails in the output
+function loadThumbnails()
+{
+    // clear out the target div 
+    thumbnailOutput.innerHTML = ""; 
+
+    let counter = 1;
+    for (let photo of json.photos)
+    {
+        // clone the comment template 
+        let thumbnailTemplate = document.getElementById("thumbnailTemplate"); 
+        let thumbnailNode = thumbnailTemplate.cloneNode(true); 
+        //object destructing to get all the property values
+        let {id,title,caption,source,comments} = photo;
+        
+        //load photo
+        thumbnailNode.querySelectorAll("img")[0].src = `images/mini_${source}`;
+        
+        //add id so that event handler nows what photo to call
+        thumbnailNode.querySelectorAll("img")[0].id = counter;
+        
+        //add event lisner to each photo
+        thumbnailNode.addEventListener("click",onClickThumbnail);
+        // make orderNode visible now that it is populated 
+        thumbnailNode.style.display = "block"; 
+        // append the orderNode to the #output div 
+        thumbnailOutput.appendChild(thumbnailNode);
+        counter += 1;
+    }
+   
+}
+
+function toggleOverlay() {
+    loadingOverlay.style.display = ((loadingOverlay.style.display == "block") ? "none" : "block");
+}
+
 //-------------------------------------------------Event Handlers
+//when tunmbnail
+
+function onClickThumbnail(e)
+{
+    current_photo = e.target.id;
+    loadImage(current_photo);
+}
+
+
 //when next button is clicked
 function onNext(e)
 {
+        toggleOverlay();
         current_photo +=1;
         //call function from toolkit to retreive JSON data
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
@@ -84,6 +145,7 @@ function onNext(e)
 //when previous button is clicked
 function onPrevious(e)
 {
+    toggleOverlay();
     current_photo -=1;
     
     //call function from toolkit to retreive JSON data
@@ -107,8 +169,6 @@ function onSubmit(e)
     let sendString = JSON.stringify(sendJSON);
     //send the JSON data to the WEb API
     sendJSONData(SUBMIT_SCRIPT,sendString, onSubmitResponse, onSubmitError);
-    
-
 }
 
 function onCancel(e)
@@ -120,6 +180,7 @@ function onCancel(e)
 
 function onSubmitResponse(responseText) 
 {
+    toggleOverlay();
     document.querySelector("#txtAuthor").value = "";
     document.querySelector("#txtComment").value = "";
 
@@ -136,16 +197,19 @@ function onResponse(result)
 {
     
     json = result;
-    console.log("My Json:" + json);
     imgCount = json.photos.length;
 
-    
     //if there are phots
     if(imgCount > 0)
     {
         //load first photo
         loadImage(current_photo);
         photo_number.innerHTML = "Photo " + current_photo + " of " + imgCount;
+
+        //output thumbnails
+        loadThumbnails();
+
+        toggleOverlay();
     }
     else
     {
@@ -162,10 +226,18 @@ function onError()
 // ----------------------------------------------- main method
 function main() 
 {
+    loadingOverlay = document.querySelector(".loading-overlay");
 
+    toggleOverlay();
+
+    //outputs for templates
     output = document.querySelector(".content__comments");
+    thumbnailOutput = document.querySelector(".thumbnailContent__thumbnails");
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
+
+    //output thumbnails
+    //loadThumbnails();
     
     //NEXT
     btnNext = document.querySelector("#btnNext");
