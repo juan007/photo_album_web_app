@@ -1,2 +1,15 @@
 // Sass Styling goes here
 // ...
+
+.loading-overlay {
+    position: fixed;
+    z-index: 999;
+    left:0px;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    overflow: show;
+    margin: auto;
+    background-color: blue;
+    display:none;
+}
