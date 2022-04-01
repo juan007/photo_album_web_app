@@ -1,8 +1,6 @@
 //TO DO
-//styles like header
-//border on comments
 //make responsive
-//images load
+//images wait load feature
 //fix disabled next previous when pressing 1st thumbnail and then last thumbnail and viceversa
 //fix when I press thumbnails and press next it stays on loading overlay
 //fix when I comment it stays on loading overlay
@@ -60,9 +58,11 @@ function loadImage(position)
     if (position == 0)
     {
         btnPrevious.disabled = true;
+        btnPrevious.style.backgroundColor = "gray";
     } else if ((position+1) == imgCount)
     {
         btnNext.disabled = true;
+        btnNext.style.backgroundColor = "gray";
     }
     
     photo.src = "images/" + json.photos[position].source;
@@ -154,6 +154,9 @@ function onClickThumbnail(e)
     {
         btnPrevious.disabled = false;
         btnNext.disabled = false;
+        
+        btnPrevious.style.backgroundColor = "#76abd8";
+        btnNext.style.backgroundColor = "#76abd8";
     }
 
 
@@ -171,6 +174,7 @@ function onNext(e)
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 
         btnPrevious.disabled = false;
+        btnPrevious.style.backgroundColor = "#76abd8";
 }
 
 //when previous button is clicked
@@ -183,6 +187,7 @@ function onPrevious(e)
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
     
     btnNext.disabled = false;
+    btnNext.style.backgroundColor = "#76abd8";
     
 }
 
