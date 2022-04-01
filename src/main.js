@@ -1,3 +1,14 @@
+//TO DO
+//styles like header
+//border on comments
+//make responsive
+//images load
+//fix disabled next previous when pressing 1st thumbnail and then last thumbnail and viceversa
+//fix when I press thumbnails and press next it stays on loading overlay
+//fix when I comment it stays on loading overlay
+//control number of characterss - validation change border  
+
+
 // importing the sass stylesheet for bundling
 import "./../sass/styles.scss";
 
@@ -8,7 +19,7 @@ import { sendJSONData, getJSONData } from "./Toolkit";
 import { Spinner } from "spin.js";
 
 // API URLS
-let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=7";
+let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=8";
 let SUBMIT_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumAddComment.php?id=w0458041";
 
 //Variable that saves current photo id
@@ -23,8 +34,7 @@ let imgCount;
 //declare buttons
 let btnPrevious;
 let btnNext;
-let btnJump;
-let btnComment;
+
 
 //space to output comments
 let output;
@@ -121,12 +131,33 @@ function toggleOverlay() {
     loadingOverlay.style.display = ((loadingOverlay.style.display == "block") ? "none" : "block");
 }
 
+function toggleJump() 
+{
+    document.querySelector(".thumbnail-content").style.display = ((document.querySelector(".thumbnail-content").style.display == "block") ? "none" : "block");
+}
+
+function toggleComment() 
+{
+    document.querySelector(".form").style.display = ((document.querySelector(".form").style.display == "block") ? "none" : "block");
+}
+
+
 //-------------------------------------------------Event Handlers
 //when tunmbnail
 
 function onClickThumbnail(e)
 {
+    
+    
     current_photo = e.target.id;
+    if(current_photo != imgCount && current_photo!=1)
+    {
+        btnPrevious.disabled = false;
+        btnNext.disabled = false;
+    }
+
+
+    
     loadImage(current_photo);
 }
 
@@ -232,7 +263,7 @@ function main()
 
     //outputs for templates
     output = document.querySelector(".content__comments");
-    thumbnailOutput = document.querySelector(".thumbnailContent__thumbnails");
+    thumbnailOutput = document.querySelector(".thumbnail-content__thumbnails");
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 
@@ -259,6 +290,13 @@ function main()
     
     let btnCancel = document.querySelector("#btnCancel");
     btnCancel.addEventListener("click", onCancel);
+
+    //Jump - Comment
+    let btnJump = document.getElementById("btnJump");
+    btnJump.addEventListener("click",toggleJump);
+    let btnComment = document.getElementById("btnComment");
+    btnComment.addEventListener("click",toggleComment);
+
 }
 
 main();
