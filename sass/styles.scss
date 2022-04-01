@@ -1,5 +1,79 @@
-// Sass Styling goes here
-// ...
+@use "./mixins";
+
+//header
+.header{
+@include mixins.flex-display();
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    &__title {
+        font-size: 35px;
+        padding-right: 10px;
+    }
+    &__subtitle {
+        padding-top: 15px;
+    }
+}
+//nav
+.nav{
+    @include mixins.flex-display();
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        &__button, &__button--blue{
+            margin-right: 3px;
+            border-width: 0px;
+        }
+        &__photonumber {
+            padding-left: 10px;
+        }
+        
+    }
+
+
+//Container of thumbnails
+.thumbnail-content__thumbnails {
+    @include mixins.flex-display();
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+//thumbnail container
+.thumbnail-content {
+    display: none;
+}
+
+//each thumbnail
+.thumbnail {
+    padding-right: 10px;
+    display:none;
+}
+
+//register comment container
+
+.form {
+    @include mixins.flex-display();
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: none;
+    padding-bottom: 10px;
+    &>div
+    {
+        padding-top: 5px;
+    }
+}
+
+.comment {
+    display:none;
+}
 
 .loading-overlay {
     position: fixed;
@@ -10,6 +84,29 @@
     bottom:0px;
     overflow: show;
     margin: auto;
-    background-color: blue;
+    background-color: #76abd8;
     display:none;
+}
+
+.thumbnail:hover {
+    border-style: solid;
+    background-color: gray;
+}
+
+.nav__button--blue, .form__button {
+    background-color: #76abd8;
+    color:#FFF;
+    border-width: 0px;
+}
+
+.nav__button
+{
+    background-color: #ffbb32;
+    color:#FFF;
+    
+}
+
+.form__text
+{
+    background-color: #e6e6e6;
 }

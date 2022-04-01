@@ -15,24 +15,25 @@
         <div class="header__subtitle">v5.0 Vanilla JS with FlexBox / Sass</div>
     </div>
     <div class = "nav">
-        <button class="nav__button" id="btnPrevious">Previous</button>
-        <button class="nav__button" id="btnNext">Next</button>
+        <button class="nav__button--blue" id="btnPrevious">Previous</button>
+        <button class="nav__button--blue" id="btnNext">Next</button>
         <button class="nav__button" id="btnJump">Jump</button>
         <button class="nav__button" id="btnComment">Comment</button>
         <div class = "nav__photonumber"></div>
     </div>
-    <div class="thumbnailContent">
-        <div id="thumbnailOutput" class="thumbnailContent__thumbnails">
-            No comments retreived
+    <div class="thumbnail-content">
+        <div class="thumbnail-content__thumbnails" id="thumbnailOutput">
         </div>
     </div>
     <div class = "form">
-        <label class="form__label">Author:</label>
-        <input class="form__textbox" id="txtAuthor" type="text" maxlength="50" />
-        <label class="form__label">Comment (200 Characters):</label>
-        <textarea class = "form__comment" rows = "5" cols = "50" id ="txtComment"></textarea>
-        <button id="btnSubmit" class="form__button">Ok</button>
-        <button id="btnCancel" class="form__button">Cancel</button>
+        <div><label class="form__label">Author:</label></div>
+        <div><input class="form__text" id="txtAuthor" type="text" maxlength="50" /></div>
+        <div><label class="form__label">Comment (200 Characters):</label></div>
+        <div><textarea class = "form__text" rows = "8" cols = "25" id ="txtComment"></textarea></div>
+        <div>
+            <button id="btnSubmit" class="form__button">Ok</button>
+            <button id="btnCancel" class="form__button">Cancel</button>
+        </div>
     </div>
     <div class = "imgcontainer">
         <img src="#" alt="" class="imgcontainer__img" />
@@ -47,11 +48,11 @@
             No comments retreived
         </div>
     </div>
-    <div class = "comment" id="commentTemplate" style="display:none">
+    <div class = "comment" id="commentTemplate">
         <div class = "comment__author"></div>
         <div class = "comment__content"></div>
     </div>
-    <div class = "thumbnail" id="thumbnailTemplate" style="display:none">
+    <div class = "thumbnail" id="thumbnailTemplate">
         <img src="#" alt="" class="thumbnail__img"/>
     </div>
     <script type="text/javascript" src="./bundle.js"></script>                
