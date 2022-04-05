@@ -5,6 +5,7 @@
 //fix when I press thumbnails and press next it stays on loading overlay
 //fix when I comment it stays on loading overlay
 //control number of characterss - validation change border  
+//test toggle img after register comment
 
 
 // importing the sass stylesheet for bundling
@@ -50,9 +51,13 @@ let photo_number;
 let loadingOverlay;
 let spinner = new Spinner({ color: '#FFFFFF', lines: 12 }).spin(document.querySelector(".loading-overlay"));
 
+// to hold big image when needed
+let img;
+
 //---------------------------------------------private methods
 function loadImage(position)
 {
+    console.log(json);
 
     position -= 1;
     if (position == 0)
@@ -129,6 +134,7 @@ function loadThumbnails()
 
 function toggleOverlay() {
     loadingOverlay.style.display = ((loadingOverlay.style.display == "block") ? "none" : "block");
+    console.log("overlay");
 }
 
 function toggleJump() 
@@ -147,7 +153,7 @@ function toggleComment()
 
 function onClickThumbnail(e)
 {
-    
+    toggleOverlay();
     
     current_photo = e.target.id;
     if(current_photo != imgCount && current_photo!=1)
@@ -159,9 +165,9 @@ function onClickThumbnail(e)
         btnNext.style.backgroundColor = "#76abd8";
     }
 
-
-    
-    loadImage(current_photo);
+    //call function from toolkit to retreive JSON data  
+    getJSONData(RETREIVE_SCRIPT,onResponse, onError);
+    //loadImage(current_photo);
 }
 
 
@@ -169,6 +175,7 @@ function onClickThumbnail(e)
 function onNext(e)
 {
         toggleOverlay();
+           
         current_photo +=1;
         //call function from toolkit to retreive JSON data
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
@@ -226,15 +233,16 @@ function onSubmitResponse(responseText)
    
 function onSubmitError() 
 {
-       console.log("Error an issue occurrred with AJAX data transmission")
+       console.log("Error an issue occurrred with AJAX data transmission");
 }
 
+//when the json data has been recieved
 function onResponse(result)
 {
     
     json = result;
     imgCount = json.photos.length;
-
+    console.log("Conteo: " + imgCount);
     //if there are phots
     if(imgCount > 0)
     {
@@ -245,7 +253,12 @@ function onResponse(result)
         //output thumbnails
         loadThumbnails();
 
-        toggleOverlay();
+        img = document.querySelector('.imgcontainer__img');
+  
+        img.onload = function() 
+        {
+            toggleOverlay();
+        };
     }
     else
     {

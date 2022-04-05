@@ -107,7 +107,10 @@ function getJSONData(retrieveScript, success, failure) {
         fetch(retrieveScript)
             .then(response => response.json())
             .then(jsonData => success(jsonData))
-            .catch(() => failure());
+            .catch((error) => {
+                console.log(error);
+                failure();
+            });
 
 }
 
