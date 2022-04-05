@@ -1,11 +1,6 @@
 //TO DO
 //make responsive
-//images wait load feature
-//fix disabled next previous when pressing 1st thumbnail and then last thumbnail and viceversa
-//fix when I press thumbnails and press next it stays on loading overlay
-//fix when I comment it stays on loading overlay
-//control number of characterss - validation change border  
-//test toggle img after register comment
+
 
 
 // importing the sass stylesheet for bundling
@@ -64,12 +59,19 @@ function loadImage(position)
     {
         btnPrevious.disabled = true;
         btnPrevious.style.backgroundColor = "gray";
+
+        btnNext.disabled = false;
+        btnNext.style.backgroundColor = "#76abd8";
     } else if ((position+1) == imgCount)
     {
         btnNext.disabled = true;
         btnNext.style.backgroundColor = "gray";
+
+        btnPrevious.disabled = false;
+        btnPrevious.style.backgroundColor = "#76abd8";
     }
     
+    console.log("position: "+position);
     photo.src = "images/" + json.photos[position].source;
     photo_title.innerHTML = json.photos[position].title;
     photo_caption.innerHTML = json.photos[position].caption;
@@ -155,7 +157,12 @@ function onClickThumbnail(e)
 {
     toggleOverlay();
     
-    current_photo = e.target.id;
+    //get own ID stablished when outputting thumbnails
+    current_photo = parseInt(e.target.id);
+    
+  
+
+/*
     if(current_photo != imgCount && current_photo!=1)
     {
         btnPrevious.disabled = false;
@@ -164,10 +171,9 @@ function onClickThumbnail(e)
         btnPrevious.style.backgroundColor = "#76abd8";
         btnNext.style.backgroundColor = "#76abd8";
     }
-
+*/
     //call function from toolkit to retreive JSON data  
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
-    //loadImage(current_photo);
 }
 
 
@@ -175,8 +181,9 @@ function onClickThumbnail(e)
 function onNext(e)
 {
         toggleOverlay();
-           
+        console.log("before +1: " + current_photo);   
         current_photo +=1;
+        console.log("after +1: " + current_photo);
         //call function from toolkit to retreive JSON data
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 
@@ -247,6 +254,7 @@ function onResponse(result)
     if(imgCount > 0)
     {
         //load first photo
+        console.log("current photo: "+current_photo);
         loadImage(current_photo);
         photo_number.innerHTML = "Photo " + current_photo + " of " + imgCount;
 
