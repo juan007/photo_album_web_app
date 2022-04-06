@@ -13,7 +13,7 @@ import { sendJSONData, getJSONData } from "./Toolkit";
 import { Spinner } from "spin.js";
 
 // API URLS
-let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=8";
+let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=5";
 let SUBMIT_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumAddComment.php?id=w0458041";
 
 //Variable that saves current photo id
@@ -28,6 +28,8 @@ let imgCount;
 //declare buttons
 let btnPrevious;
 let btnNext;
+let btnJump;
+let btnComment;
 
 
 //space to output comments
@@ -41,6 +43,9 @@ let photo;
 let photo_title;
 let photo_caption;
 let photo_number;
+
+//
+let flag = 0;
 
 // construct Spinner object
 let loadingOverlay;
@@ -60,8 +65,21 @@ function loadImage(position)
         btnPrevious.disabled = true;
         btnPrevious.style.backgroundColor = "gray";
 
-        btnNext.disabled = false;
-        btnNext.style.backgroundColor = "#76abd8";
+        if(flag==1)
+        {
+            btnNext.disabled = true;
+            btnNext.style.backgroundColor = "gray";
+            btnJump.disabled = true;
+            btnJump.style.backgroundColor = "gray";
+        }
+        else
+        {
+            btnNext.disabled = false;
+            btnNext.style.backgroundColor = "#76abd8";
+        }
+
+
+        
     } else if ((position+1) == imgCount)
     {
         btnNext.disabled = true;
@@ -201,6 +219,8 @@ function onPrevious(e)
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
     
+    
+    
     btnNext.disabled = false;
     btnNext.style.backgroundColor = "#76abd8";
     
@@ -263,6 +283,11 @@ function onResponse(result)
     //if there are phots
     if(imgCount > 0)
     {
+        if(imgCount==1)
+        {
+            flag=1;
+        }
+        
         //load first photo
         console.log("current photo: "+current_photo);
         loadImage(current_photo);
@@ -271,19 +296,25 @@ function onResponse(result)
         //output thumbnails
         loadThumbnails();
 
-        img = document.querySelector('.imgcontainer__img');
-  
-        img.onload = function() 
-        {
-            toggleOverlay();
-        };
+        document.querySelector('.imgcontainer__img').onload = () => toggleOverlay();
     }
     else
     {
+        //Disable all buttons
+        toggleOverlay();
+        btnPrevious.disabled = true;
+        btnPrevious.style.backgroundColor = "gray";
+        btnNext.disabled = true;
+        btnNext.style.backgroundColor = "gray";
+        btnJump.disabled = true;
+        btnJump.style.backgroundColor = "gray";
+        btnComment.disabled = true;
+        btnComment.style.backgroundColor = "gray";
+        
         console.log("NO IMAGES RETREIVED");
     }
     
-    console.log(result);
+    
 }
 function onError()
 {
@@ -328,9 +359,9 @@ function main()
     btnCancel.addEventListener("click", onCancel);
 
     //Jump - Comment
-    let btnJump = document.getElementById("btnJump");
+    btnJump = document.getElementById("btnJump");
     btnJump.addEventListener("click",toggleJump);
-    let btnComment = document.getElementById("btnComment");
+    btnComment = document.getElementById("btnComment");
     btnComment.addEventListener("click",toggleComment);
 
 }
