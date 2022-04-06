@@ -7,54 +7,57 @@
         <title>Album App</title>
 		<link rel="stylesheet" type="text/css" href="./bundle.css" />
     </head>
-    <body>
-
-    <div class="loading-overlay"></div>
-    <div class = "header">
-        <div class="header__title">_Photo.Album</div>
-        <div class="header__subtitle">v5.0 Vanilla JS with FlexBox / Sass</div>
-    </div>
-    <div class = "nav">
-        <button class="nav__button--blue" id="btnPrevious">Previous</button>
-        <button class="nav__button--blue" id="btnNext">Next</button>
-        <button class="nav__button" id="btnJump">Jump</button>
-        <button class="nav__button" id="btnComment">Comment</button>
-        <div class = "nav__photonumber"></div>
-    </div>
-    <div class="thumbnail-content">
-        <div class="thumbnail-content__thumbnails" id="thumbnailOutput">
-        </div>
-    </div>
-    <div class = "form">
-        <div><label class="form__label">Author:</label></div>
-        <div><input class="form__text" id="txtAuthor" type="text" maxlength="50" /></div>
-        <div><label class="form__label">Comment (200 Characters):</label></div>
-        <div><textarea class = "form__text" rows = "8" cols = "25" id ="txtComment" maxlength="200"></textarea></div>
-        <div>
-            <button id="btnSubmit" class="form__button">Ok</button>
-            <button id="btnCancel" class="form__button">Cancel</button>
-        </div>
-    </div>
-    <div class = "imgcontainer">
-        <img src="#" alt="" class="imgcontainer__img" />
-    </div>
-    <div class = "imginfo">
-        <div class = "imginfo__title"></div>
-        <div class = "imginfo__caption"></div>
-    </div>
     
-    <div class="content">
-        <div id="output" class="content__comments">
-            No comments retreived
+    <body class = "wrapper">
+        <div class="loading-overlay"></div>
+        <div class = "header">
+            <div class="header__title">_Photo.Album</div>
+            <div class="header__subtitle">v5.0 Vanilla JS with FlexBox / Sass</div>
         </div>
-    </div>
-    <div class = "comment" id="commentTemplate">
-        <div class = "comment__author"></div>
-        <div class = "comment__content"></div>
-    </div>
-    <div class = "thumbnail" id="thumbnailTemplate">
-        <img src="#" alt="" class="thumbnail__img"/>
-    </div>
-    <script type="text/javascript" src="./bundle.js"></script>                
+        <div class = "nav">
+            <button class="nav__button--blue" id="btnPrevious">Previous</button>
+            <button class="nav__button--blue" id="btnNext">Next</button>
+            <button class="nav__button" id="btnJump">Jump</button>
+            <button class="nav__button" id="btnComment">Comment</button>
+            <div class = "nav__photonumber"></div>
+        </div>
+        <div class="thumbnail-content">
+            <div class="thumbnail-content__thumbnails" id="thumbnailOutput">
+            </div>
+        </div>
+        <div class = "form">
+            <div><label class="form__label">Author:</label></div>
+            <div><input class="form__text" id="txtAuthor" type="text" maxlength="50"/></div>
+            <div><label class="form__label">Comment (200 Characters):</label></div>
+            <div><textarea class = "form__text" rows = "8" cols = "25" id ="txtComment" maxlength="200"></textarea></div>
+            <div>
+                <button id="btnSubmit" class="form__button">Ok</button>
+                <button id="btnCancel" class="form__button">Cancel</button>
+            </div>
+            <div>
+                <label class="form__validation">All fields are required</button>
+            </div>
+        </div>
+        <div class = "imgcontainer">
+            <img src="#" alt="" class="imgcontainer__img" />
+        </div>
+        <div class = "imginfo">
+            <div class = "imginfo__title"></div>
+            <div class = "imginfo__caption"></div>
+        </div>
+        
+        <div class="content">
+            <div id="output" class="content__comments">
+                No comments retreived
+            </div>
+        </div>
+        <div class = "comment" id="commentTemplate">
+            <div class = "comment__author"></div>
+            <div class = "comment__content"></div>
+        </div>
+        <div class = "thumbnail" id="thumbnailTemplate">
+            <img src="#" alt="" class="thumbnail__img"/>
+        </div>
+        <script type="text/javascript" src="./bundle.js"></script>                
     </body>
 </html>

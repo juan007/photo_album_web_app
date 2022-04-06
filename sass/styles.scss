@@ -1,4 +1,11 @@
 @use "./mixins";
+//mobile
+@use "./mobile450";
+
+.wrapper {
+    padding: 20px;
+}
+
 
 //header
 .header{
@@ -69,6 +76,14 @@
     {
         padding-top: 5px;
     }
+    &__text:focus {
+        border: solid;
+        border-color: #ffbb32;
+    }
+    &__validation {
+        display: none;
+        color: red;
+    }
 }
 
 .comment {
@@ -110,3 +125,4 @@
 {
     background-color: #e6e6e6;
 }
+

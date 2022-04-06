@@ -149,6 +149,19 @@ function toggleComment()
     document.querySelector(".form").style.display = ((document.querySelector(".form").style.display == "block") ? "none" : "block");
 }
 
+//Validate that the textfields are not empty
+function formValidated()
+{
+    if(document.getElementById("txtAuthor").value.length > 0 && document.getElementById("txtComment").value.length > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 
 //-------------------------------------------------Event Handlers
 //when tunmbnail
@@ -160,18 +173,6 @@ function onClickThumbnail(e)
     //get own ID stablished when outputting thumbnails
     current_photo = parseInt(e.target.id);
     
-  
-
-/*
-    if(current_photo != imgCount && current_photo!=1)
-    {
-        btnPrevious.disabled = false;
-        btnNext.disabled = false;
-        
-        btnPrevious.style.backgroundColor = "#76abd8";
-        btnNext.style.backgroundColor = "#76abd8";
-    }
-*/
     //call function from toolkit to retreive JSON data  
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 }
@@ -207,18 +208,27 @@ function onPrevious(e)
 
 function onSubmit(e)
 {
-    //package data as JSON
-    let sendJSON = 
+    console.log(formValidated());
+    if(formValidated())
     {
-        "photoId": json.photos[current_photo-1].id,
-        "author": document.getElementById("txtAuthor").value,
-        "comment": document.getElementById("txtComment").value
-    };
+        document.querySelector(".form__validation").style.display = "none";
+        //package data as JSON
+        let sendJSON = 
+        {
+            "photoId": json.photos[current_photo-1].id,
+            "author": document.getElementById("txtAuthor").value,
+            "comment": document.getElementById("txtComment").value
+        };
 
-    //serelization.-convert the JSON object to a string 
-    let sendString = JSON.stringify(sendJSON);
-    //send the JSON data to the WEb API
-    sendJSONData(SUBMIT_SCRIPT,sendString, onSubmitResponse, onSubmitError);
+        //serelization.-convert the JSON object to a string 
+        let sendString = JSON.stringify(sendJSON);
+        //send the JSON data to the WEb API
+        sendJSONData(SUBMIT_SCRIPT,sendString, onSubmitResponse, onSubmitError);
+    }
+    else
+    {
+        document.querySelector(".form__validation").style.display = "block";
+    }
 }
 
 function onCancel(e)
