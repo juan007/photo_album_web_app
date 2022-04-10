@@ -13,7 +13,7 @@ import { sendJSONData, getJSONData } from "./Toolkit";
 import { Spinner } from "spin.js";
 
 // API URLS
-let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=5";
+let RETREIVE_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumRetrieve.php?id=w0458041&count=11";
 let SUBMIT_SCRIPT = "https://www.seanmorrow.ca/_lessons/albumAddComment.php?id=w0458041";
 
 //Variable that saves current photo id
@@ -89,7 +89,6 @@ function loadImage(position)
         btnPrevious.style.backgroundColor = "#76abd8";
     }
     
-    console.log("position: "+position);
     photo.src = "images/" + json.photos[position].source;
     photo_title.innerHTML = json.photos[position].title;
     photo_caption.innerHTML = json.photos[position].caption;
@@ -187,10 +186,29 @@ function formValidated()
 function onClickThumbnail(e)
 {
     toggleOverlay();
+
+    
+    
     
     //get own ID stablished when outputting thumbnails
     current_photo = parseInt(e.target.id);
     
+    console.log("Current photo: " + current_photo + " count: " + imgCount);
+    
+    if(current_photo !=1)
+    {
+        btnPrevious.disabled = false;
+        btnPrevious.style.backgroundColor = "#76abd8";
+    } 
+    
+    if (current_photo != imgCount)
+    {
+        console.log("in here!!!!!!!!!!!!!!!");
+        btnNext.disabled = false;
+        btnNext.style.backgroundColor = "#76abd8";
+    }
+
+
     //call function from toolkit to retreive JSON data  
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 }
@@ -200,9 +218,9 @@ function onClickThumbnail(e)
 function onNext(e)
 {
         toggleOverlay();
-        console.log("before +1: " + current_photo);   
+        
         current_photo +=1;
-        console.log("after +1: " + current_photo);
+        
         //call function from toolkit to retreive JSON data
         getJSONData(RETREIVE_SCRIPT,onResponse, onError);
 
@@ -218,8 +236,6 @@ function onPrevious(e)
     
     //call function from toolkit to retreive JSON data
     getJSONData(RETREIVE_SCRIPT,onResponse, onError);
-    
-    
     
     btnNext.disabled = false;
     btnNext.style.backgroundColor = "#76abd8";
@@ -318,6 +334,7 @@ function onResponse(result)
 }
 function onError()
 {
+    toggleOverlay();
     console.log("*** Error has occured during AJAX data transmissionsssss");
 }
 
